@@ -18,6 +18,9 @@ public class Cart {
             }
             shippableItems.add((Shippable) product);
         }
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
         if(quantity > product.getQuantity()) {
             throw new IllegalArgumentException("Cannot add " + quantity + " of " + product.getName() +
                     ". Only " + product.getQuantity() + " available.");

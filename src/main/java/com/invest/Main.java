@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         List<Product> products = ProductDatabase.loadProducts("products.json");
 
-        Customer customer = new Customer("Mazen", 500);
+        Customer customer = new Customer("Mazen", 1600);
         Cart cart = new Cart();
 
         cart.add(products.get(0), 2); // Cheese

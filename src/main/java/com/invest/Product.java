@@ -6,6 +6,15 @@ public class Product {
     private int quantity;
 
     public Product(String name, double price, int quantity) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be null or empty");
+        }
+        if (price < 0) {
+            throw new IllegalArgumentException("Product price cannot be negative");
+        }
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Product quantity cannot be negative");
+        }
         this.name = name;
         this.price = price;
         this.quantity = quantity;

@@ -5,6 +5,9 @@ public class Customer {
     double balance;
 
     public Customer(String name, double balance) {
+        if (balance < 0) {
+            throw new IllegalArgumentException("Balance cannot be negative");
+        }
         this.name = name;
         this.balance = balance;
     }

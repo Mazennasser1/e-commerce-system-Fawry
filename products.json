@@ -1,10 +1,17 @@
 [ {
+  "type" : "nonExpirable",
+  "name" : "Cheese",
+  "price" : 100.0,
+  "quantity" : 0,
+  "weight" : null,
+  "expiryDate" : null
+}, {
   "type" : "shippable",
   "name" : "Cheese",
   "price" : 100.0,
   "quantity" : 2,
   "weight" : 0.2,
-  "expiryDate" : "2024-12-31"
+  "expiryDate" : null
 }, {
   "type" : "shippable",
   "name" : "Biscuits",
