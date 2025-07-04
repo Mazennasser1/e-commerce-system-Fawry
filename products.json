@@ -1,0 +1,22 @@
+[ {
+  "type" : "shippable",
+  "name" : "Cheese",
+  "price" : 100.0,
+  "quantity" : 2,
+  "weight" : 0.2,
+  "expiryDate" : "2024-12-31"
+}, {
+  "type" : "shippable",
+  "name" : "Biscuits",
+  "price" : 150.0,
+  "quantity" : 6,
+  "weight" : 0.7,
+  "expiryDate" : null
+}, {
+  "type" : "nonExpirable",
+  "name" : "Scratch Card",
+  "price" : 50.0,
+  "quantity" : 0,
+  "weight" : null,
+  "expiryDate" : null
+} ]
