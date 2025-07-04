@@ -1,6 +1,12 @@
 package com.invest;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.lang.System.exit;
+
 public class Product {
+    private static final Set<Product> products = new HashSet<>();
     private String name;
     private double price;
     private int quantity;
@@ -18,6 +24,12 @@ public class Product {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+
+        if (!products.add(this)) {
+            System.err.println("Duplicate product detected: " + name);
+            System.err.println(" Application terminated due to duplicate product.");
+            System.exit(1);
+        }
     }
 
     public boolean isExpired() {
@@ -49,5 +61,17 @@ public class Product {
                 ", price=" + price +
                 ", quantity=" + quantity +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Product)) return false;
+        Product product = (Product) obj;
+        return name.equals(product.name);
+    }
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

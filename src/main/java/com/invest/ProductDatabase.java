@@ -24,7 +24,7 @@ public class ProductDatabase {
                     case "shippable":
                         if(data.expiryDate != null) {
                             LocalDate expiryDate = LocalDate.parse(data.expiryDate);
-                            ExpirableProcduct expirableProduct = new ExpirableProcduct(data.name, data.price, data.quantity, expiryDate);
+                            ExpirableProductWithShipping expirableProduct = new ExpirableProductWithShipping(data.name, data.price, data.quantity, expiryDate, data.weight);
                             productList.add(expirableProduct);
                         }
                         Product p1 = new ShippableProduct(data.name, data.price, data.quantity, data.weight);
@@ -48,30 +48,39 @@ public class ProductDatabase {
         return productList;
     }
 
-    public static void saveProducts(List<Product> products, String path) {
+    public static void saveProducts(List<Product> updatedProducts, String path) {
         ObjectMapper mapper = new ObjectMapper();
-        List<ProductData> dataList = new ArrayList<>();
-        for (Product product : products) {
-            ProductData data = new ProductData();
-            if (product instanceof ShippableProduct) {
-                data.type = "shippable";
-                data.weight = ((ShippableProduct) product).getWeight();
-            } else {
-                data.type = "nonExpirable";
-                data.weight = null;
-            }
-            data.name = product.getName();
-            data.price = product.getPrice();
-            data.quantity = product.getQuantity();
-            // If you add expiryDate logic, set here
-            data.expiryDate = null;
-            dataList.add(data);
-        }
+
         try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(path), dataList);
+            List<ProductData> originalDataList = mapper.readValue(new File(path), new TypeReference<List<ProductData>>() {});
+
+            for (Product updatedProduct : updatedProducts) {
+                for (ProductData data : originalDataList) {
+                    boolean sameName = data.name.equals(updatedProduct.getName());
+                    boolean sameWeight = (data.weight == null && !(updatedProduct instanceof Shippable))
+                            || (data.weight != null && updatedProduct instanceof Shippable && data.weight.equals(((Shippable) updatedProduct).getWeight()));
+
+                    boolean sameExpiry = true;
+                    if (data.expiryDate != null && updatedProduct instanceof ExpirableProductWithShipping e) {
+                        sameExpiry = data.expiryDate.equals(e.getExpiryDate().toString());
+                    } else if (data.expiryDate != null) {
+                        sameExpiry = false;
+                    }
+
+                    if (sameName && sameWeight && sameExpiry) {
+                        data.quantity = updatedProduct.getQuantity();
+                        break;
+                    }
+                }
+            }
+
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(path), originalDataList);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }
 

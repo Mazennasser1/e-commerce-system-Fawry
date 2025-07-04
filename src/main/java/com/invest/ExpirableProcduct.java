@@ -25,4 +25,8 @@ public class ExpirableProcduct extends Product {
                 ", expirationDate='" + expirationDate + '\'' +
                 '}';
     }
+
+    public LocalDate getExpiryDate() {
+        return expirationDate;
+    }
 }
